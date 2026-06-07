@@ -1,0 +1,18 @@
+{
+  "name": "哺乳期营养地图",
+  "short_name": "营养地图",
+  "description": "一张用两周就能学会、用完就不需要的哺乳期营养认知地图。",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F7F7F5",
+  "theme_color": "#073118",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

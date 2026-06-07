@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#073118" />
+    <meta
+      name="description"
+      content="一张用两周就能学会、用完就不需要的哺乳期营养认知地图。"
+    />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>哺乳期营养地图</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <p class="hero-kicker">产后哺乳期 · 普拉提练习者</p>
+        <h1>哺乳期营养地图</h1>
+        <p class="hero-copy">
+          不用记卡路里，也不用天天打卡。你只需要知道，这个阶段该盯住什么、吃什么、身体在提醒你什么。
+        </p>
+      </header>
+
+      <main id="app" class="app-main" aria-live="polite"></main>
+
+      <nav class="tab-bar" aria-label="底部导航">
+        <button class="tab-button" data-tab="goals" type="button">
+          <span class="tab-label">我的目标</span>
+          <span class="tab-dot" aria-hidden="true"></span>
+        </button>
+        <button class="tab-button is-active" data-tab="map" type="button">
+          <span class="tab-label">营养地图</span>
+          <span class="tab-dot" aria-hidden="true"></span>
+        </button>
+        <button class="tab-button" data-tab="foods" type="button">
+          <span class="tab-label">食物直觉</span>
+          <span class="tab-dot" aria-hidden="true"></span>
+        </button>
+        <button class="tab-button" data-tab="pilates" type="button">
+          <span class="tab-label">普拉提</span>
+          <span class="tab-dot" aria-hidden="true"></span>
+        </button>
+      </nav>
+    </div>
+
+    <script src="./data.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
