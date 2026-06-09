@@ -39,187 +39,216 @@ window.APP_DATA = {
     { mark: "👍", name: "拇指", portion: "一份脂肪", detail: "坚果或油脂，每天 2–3 拇指就够。" },
     { mark: "👐", name: "双手捧", portion: "一份蔬菜", detail: "两手捧满的生蔬菜，每天 4–6 捧。" }
   ],
-  nutrientCards: [
+  mealGuides: [
     {
-      id: "iodine",
-      name: "碘",
-      tag: "哺乳期首要",
-      summary: "母乳里给宝宝的碘，几乎全靠你日常吃进去。",
-      why: "母乳是宝宝碘的唯一来源，宝宝的甲状腺和大脑发育都依赖它。你自己缺碘感觉不明显，但宝宝的影响会更大。哺乳期每天建议约 290 μg。",
-      foods: ["海带 / 紫菜（每周 2–3 次）", "海鱼虾贝（每周 3 次）", "加碘盐（日常烹饪用）", "牛奶（每天一杯）"],
-      tip: "用加碘盐是最简单的方式，但盐尽量最后放，别高温久炒。"
+      id: "breakfast",
+      title: "早餐",
+      subtitle: "先让上午不发慌",
+      summary: "早餐先稳住蛋白质和碳水，上午更不容易饿得心慌。",
+      examples: ["鸡蛋 + 牛奶 + 全麦面包", "希腊酸奶 + 燕麦 + 半根香蕉", "豆浆 + 鸡蛋 + 一小块红薯"],
+      fallback: "来不及准备时，先保住一杯奶或酸奶，再加一个鸡蛋。"
     },
     {
-      id: "dha",
-      name: "DHA",
-      tag: "哺乳期首要",
-      summary: "宝宝大脑和视网膜喜欢的关键脂肪酸。",
-      why: "DHA 是大脑和视网膜的核心结构脂肪酸，宝宝出生后头两年完全依赖母乳中的 DHA。长期不补，你自己也可能更容易情绪波动、记忆力下降。建议每天 200–300 mg。",
-      foods: ["三文鱼（100g，每周 2 次）", "沙丁鱼 / 鲭鱼（小型深海鱼优先）", "DHA 藻油（不吃鱼可替代）", "核桃（含 ALA，转化率低但有益）"],
-      tip: "优先选小型深海鱼，汞含量更低，金枪鱼和旗鱼不要频繁吃。"
+      id: "lunch",
+      title: "午餐",
+      subtitle: "每餐都先看蛋白质",
+      summary: "午餐优先保证一掌蛋白质、一拳主食和两种颜色以上的蔬菜。",
+      examples: ["米饭 + 清炒西兰花 + 牛肉", "杂粮饭 + 豆腐 + 虾仁 + 绿叶菜", "面条 + 鸡胸 + 青菜 + 卤蛋"],
+      fallback: "外卖也没关系，先选带肉/鱼/蛋/豆腐的套餐，再补一份青菜。"
     },
     {
-      id: "calcium",
-      name: "钙",
-      tag: "需主动补充",
-      summary: "你没吃够时，身体会先从骨骼里借出来。",
-      why: "每天通过母乳分泌约 200–300 mg 钙，饮食不足时身体会从骨骼里动用。短期不明显，长期会影响骨密度。哺乳期每天建议 1000–1200 mg。",
-      foods: ["牛奶 / 酸奶（每天 1–2 杯）", "北豆腐（卤水点制更高钙）", "西兰花 / 羽衣甘蓝（吸收率较好）", "小鱼干 / 虾皮（汤里加一点）"],
-      tip: "维生素 D 帮助钙吸收，晒太阳和户外活动都很加分。"
-    },
-    {
-      id: "iron",
-      name: "铁",
-      tag: "产后重点",
-      summary: "总是累、头晕、恢复慢，不一定只是带娃太辛苦。",
-      why: "分娩失血会消耗铁储备，产后铁不足会持续疲劳、头晕、运动后恢复慢。这些常被误以为是普通劳累。哺乳期每天建议 9–10 mg，月经复潮后还会更高。",
-      foods: ["牛羊肉（血红素铁，吸收率最好）", "猪肝（每周 1 次，不要过量）", "菠菜 / 木耳（搭配维 C）", "红豆 / 黑豆（同样建议搭配维 C）"],
-      tip: "茶和咖啡会影响铁吸收，尽量别和含铁食物一起喝。"
-    },
-    {
-      id: "protein",
-      name: "蛋白质",
-      tag: "每日基础",
-      summary: "你同时在产奶，也在做普拉提后的修复。",
-      why: "蛋白质不足时，肌肉酸痛恢复慢、容易饿、情绪也不稳定。混合喂养加每周 3 次普拉提，以 55kg 为例建议约 85g 左右。每餐一掌蛋白质食物，通常就能很接近目标。",
-      foods: ["鸡蛋（每天 1–2 个）", "鱼 / 虾 / 鸡胸（每餐一掌）", "希腊酸奶（加餐首选）", "豆腐 / 毛豆（植物蛋白）"],
-      tip: "练后 30–60 分钟内补一点蛋白质，恢复会更轻松。"
+      id: "dinner",
+      title: "晚餐",
+      subtitle: "别吃太少，也别全靠零食",
+      summary: "晚餐如果太少，夜里更容易饿，也会影响第二天恢复感。",
+      examples: ["三文鱼 + 红薯 + 羽衣甘蓝", "鸡胸 + 糙米饭 + 炒菠菜", "豆腐煲 + 杂粮饭 + 彩椒"],
+      fallback: "没胃口时，把分量缩小一点，但还是保留主食和蛋白质。"
     }
   ],
-  signals: [
+  snackWindows: [
     {
-      feeling: "总是很累，容易头晕",
-      action: "先看铁和蛋白质够不够。红肉、豆类搭配维 C 会更有帮助。"
+      id: "morning",
+      title: "上午 10:30 左右",
+      summary: "这个时间点饿，不是你嘴馋，很多哺乳妈妈身体就是会要能量。",
+      combos: ["希腊酸奶 + 半根香蕉", "牛奶 + 一小把坚果", "鸡蛋 + 一小块红薯"],
+      note: "目标不是吃多，而是别等到饿慌了才乱找零食。"
     },
     {
-      feeling: "肌肉酸痛久不恢复",
-      action: "蛋白质可能不足。练后补一次蛋白质，连续观察一周。"
-    },
-    {
-      feeling: "情绪波动大，容易焦虑",
-      action: "DHA 和镁都值得留意。深海鱼和绿叶菜可以先加上。"
-    },
-    {
-      feeling: "奶量减少",
-      action: "先检查总热量和喝水量，身体会优先保护自己。"
+      id: "afternoon",
+      title: "下午 15:30–16:00",
+      summary: "下午这次加餐，通常最能决定你晚饭前会不会突然暴饿。",
+      combos: ["全脂牛奶 + 全麦饼干", "酸奶 + 燕麦", "毛豆 + 小水果"],
+      note: "如果晚上还要练普拉提，这次加餐更重要。"
     }
   ],
-  principles: [
-    "每周吃深海鱼 2–3 次，三文鱼、沙丁鱼、鲭鱼优先。",
-    "每天蔬菜至少 3 种颜色，颜色越丰富，微量营养素越全。",
-    "每餐有一掌蛋白质，鱼、肉、蛋、豆腐任选一。",
-    "用加碘盐，烹饪最后放，保护碘不被高温破坏。",
-    "练完 30–60 分钟内吃点东西，希腊酸奶、鸡蛋或一把坚果都行。"
-  ],
-  postWorkoutGuides: [
-    {
-      title: "练后 30–60 分钟，先补一点",
-      icon: "cup",
-      accent: "green",
-      summary: "不用吃得很正式，但别一直拖到下一餐。先给身体一点蛋白质和碳水，恢复会轻松很多。",
-      suggestions: ["希腊酸奶 + 半根香蕉", "鸡蛋 + 一小块红薯", "牛奶 + 一小把燕麦"],
-      note: "如果课后马上要带娃出门，提前准备一个能拿了就走的小加餐最省心。"
-    },
-    {
-      title: "蛋白质 15–25g，够修复就好",
-      icon: "spark",
-      accent: "peach",
-      summary: "普拉提强度不算爆发型训练，不需要夸张补剂。关键是稳定给到肌肉修复原料。",
-      suggestions: ["1 杯希腊酸奶", "2 个鸡蛋 + 1 杯牛奶", "一掌鱼 / 虾 / 鸡胸"],
-      note: "你的目标不是练成健美选手，而是更快恢复、不那么累。"
-    },
-    {
-      title: "加一点碳水，奶量和状态更稳",
-      icon: "leaf",
-      accent: "blue",
-      summary: "哺乳期如果练后只吃蛋白质、不补主食，容易让后面更饿，也可能影响整体能量感。",
-      suggestions: ["半拳到一拳主食", "香蕉 / 红薯 / 燕麦任选一个", "如果快到正餐，就直接把那餐好好吃完整"],
-      note: "练后最好的饮食建议，通常不是“更克制”，而是“别饿着自己”。"
-    }
-  ],
-  pilatesReasons: [
-    {
-      title: "怀孕撑开的腹部，需要从深层开始修复",
-      summary: "妊娠期腹部肌肉被撑开拉长，不同程度的腹直肌分离几乎每个产后妈妈都有。普拉提的深层核心激活方式，正好是修复这个问题最安全、最有效的路径。",
-      accent: "green"
-    },
-    {
-      title: "分娩压力最大的地方，需要有意识地唤醒",
-      summary: "骨盆底肌在妊娠和分娩过程中承受了巨大压力，产后普遍存在功能减弱。普拉提的每个动作都在调用骨盆底肌，帮助它重新建立张力和控制感。",
-      accent: "peach"
-    },
-    {
-      title: "哺乳姿势造成的体态问题，普拉提在慢慢纠正",
-      summary: "长期哺乳让肩膀习惯性前倾、上背部圆曲。普拉提的脊柱延伸和肩胛稳定练习，每节课都在对抗这个模式，帮你找回直立的感觉。",
-      accent: "blue"
-    },
-    {
-      title: "不会过度消耗，不影响哺乳和恢复",
-      summary: "高强度运动可能短期内影响奶量和身体恢复速度。普拉提强度可控，一周 3 次的节奏对哺乳期身体来说很理想，有刺激，但不过载。",
-      accent: "green"
-    }
-  ],
-  pilatesConcepts: [
-    {
-      id: "core",
-      title: "核心",
-      summary: "核心不是腹肌，是更深的一层",
-      body: "想象肚脐往里缩、往上提的感觉，那个位置就是核心。它不是六块腹肌，而是包裹在腹腔深处的一组肌肉，像天然的腰托。抱娃不腰酸、久坐不塌腰、走路不摇晃，靠的都是它。"
-    },
-    {
-      id: "breath",
-      title: "呼吸",
-      summary: "普拉提的呼吸方式本身就是训练",
-      body: "普拉提用侧肋呼吸，吸气时让肋骨向两侧扩张，呼气时肋骨收拢、腹部轻轻内收。这个呼吸方式本身就在激活深层核心，也在帮助产后腹部的功能性恢复。刚开始配合不上很正常，不要憋气就好。"
-    },
-    {
-      id: "stability",
-      title: "稳定性",
-      summary: "动作幅度小，不代表没有效果",
-      body: "普拉提不追求练到力竭，而是在稳定的基础上完成动作。你可能会觉得动作不大、强度不猛，但这通常说明你在真正激活深层肌肉，而不是用大肌群代偿。"
-    }
-  ],
-  pilatesExpectations: {
-    normal: [
-      "深层腹部和臀部内侧有轻微酸感",
-      "感觉动作没做到位，或者找不到发力感",
-      "不会大汗淋漓，心率也不会很高",
-      "做完感觉好像没练够"
-    ],
-    warning: [
-      "腰部有明显疼痛，不是酸，是痛",
-      "练完有漏尿或盆底明显下坠感",
-      "肚子中线练动作时有明显隆起或凸出",
-      "任何让你感到不对劲的身体反应"
-    ],
-    timeline: [
-      { stage: "建立连接期", duration: "第 1–2 周", result: "开始感知深层肌肉的存在" },
-      { stage: "模式建立期", duration: "第 3–4 周", result: "动作开始有感觉，呼吸和动作能配合" },
-      { stage: "感知提升期", duration: "第 5–6 周", result: "日常抱娃、久坐的稳定感明显提升" },
-      { stage: "体态改变期", duration: "第 2–3 个月", result: "肩颈圆背开始改善，整体姿态更直" }
-    ]
-  },
-  pilatesNutrition: {
+  workoutFuel: {
+    intro: "运动和吃是一件事。你不是在拼强度，而是在帮助身体更稳地恢复。",
     before: {
-      title: "不需要特别准备，正常吃就好",
-      body: "距离上次吃饭超过 3 小时，吃一小把坚果或半个水果垫一下。空腹练容易头晕，尤其哺乳期血糖本来就更容易波动。"
+      title: "练前",
+      summary: "距离上次吃饭超过 3 小时，就先垫一点，别空腹硬撑。",
+      ideas: ["半根香蕉", "一小把坚果", "半杯牛奶", "半拳主食"]
     },
     after: {
-      title: "这是最重要的一餐",
-      body: "身体在修复肌肉，需要蛋白质。一小碗希腊酸奶、一个鸡蛋、或一杯牛奶就够，不需要专门买蛋白粉。"
+      title: "练后 30–60 分钟",
+      summary: "先补一点蛋白质和碳水，恢复会轻松很多。",
+      ideas: ["希腊酸奶 + 香蕉", "鸡蛋 + 牛奶", "鸡胸 / 虾仁 + 半拳主食", "豆腐 + 红薯"]
     },
-    principles: [
-      "碳水不要刻意减，普拉提供能和产奶都在消耗糖原。",
+    dayAdjustments: [
+      "运动日不要刻意减碳水，普拉提和产奶都在耗能。",
       "多喝 200–300ml 水，运动和哺乳都在额外耗水。",
-      "不需要额外加餐，一周 3 次普拉提已计入活动系数。"
-    ],
-    signals: [
-      { feeling: "特别疲惫，恢复慢", reason: "蛋白质或总热量不足", target: "去营养地图看蛋白质卡片" },
-      { feeling: "情绪好但奶量下降", reason: "水分或总热量不够", target: "去我的目标查热量数字" },
-      { feeling: "肌肉酸痛超过 3 天", reason: "强度偏高或蛋白质不足", target: "两个方向都查" },
-      { feeling: "头晕或低血糖感", reason: "练前空腹或碳水不足", target: "练前加一点碳水" }
+      "一周 2–3 次普拉提不需要夸张加餐，但练后别拖太久不吃。"
     ]
   },
+  swapIdeas: [
+    {
+      problem: "做不到每周吃深海鱼 2–3 次",
+      answer: "可以考虑 DHA 藻油作为替代，不一定非得靠三文鱼完成。"
+    },
+    {
+      problem: "奶制品吃得不多",
+      answer: "先用北豆腐、酸奶、牛奶轮着补，重点是别让钙长期空着。"
+    },
+    {
+      problem: "白天总顾不上正经加餐",
+      answer: "先准备能拿了就走的最小组合，比如酸奶、牛奶、鸡蛋、坚果。"
+    },
+    {
+      problem: "外卖太随机，不知道怎么选",
+      answer: "先保住蛋白质，再补主食和蔬菜，不用追求一顿完美。"
+    }
+  ],
+  focusPrompts: {
+    exclusive: "今天先记住：完全母乳的你，别把“容易饿”理解成自己没自控力，很多时候只是身体真的在要能量。",
+    mixed: "今天先记住：混合喂养也有额外需求，不用吃得像全母乳那么多，但也别按普通减脂思路去吃。",
+    weaned: "今天先记住：如果已经断奶或几乎不哺乳，重点会慢慢回到恢复体力和建立稳定饮食节奏。"
+  },
+  changeGroups: [
+    {
+      id: "body",
+      title: "身体感受",
+      options: [
+        { id: "body_steady", label: "下午没那么容易塌了", feedback: "这通常说明你的能量补给开始更稳了。" },
+        { id: "body_recover", label: "练完没那么虚了", feedback: "这说明吃和恢复慢慢接上了。" },
+        { id: "body_hungry", label: "还是容易饿得发慌", feedback: "这往往不是意志力问题，更像是加餐或总热量还没接住你。" },
+        { id: "body_tired", label: "还是挺容易累", feedback: "如果疲惫感一直在，后面更值得回头看蛋白质、铁和总热量。" }
+      ]
+    },
+    {
+      id: "emotion",
+      title: "情绪状态",
+      options: [
+        { id: "emotion_stable", label: "情绪比前几天稳一点", feedback: "有时候身体更稳，情绪会先一步变得不那么飘。" },
+        { id: "emotion_fuzzy", label: "脑子还是有点乱", feedback: "这很常见，先别急着要求自己一下子变好，先从吃稳开始。" },
+        { id: "emotion_anxious", label: "还是容易焦虑", feedback: "焦虑不一定都是心理问题，能量感、睡眠和恢复都可能在里面。" }
+      ]
+    },
+    {
+      id: "cognition",
+      title: "认知变化",
+      options: [
+        { id: "mind_clear", label: "我更知道该怎么选吃的了", feedback: "这就是营养直觉开始长出来的样子。" },
+        { id: "mind_partial", label: "我知道原理，但现实里还做不到", feedback: "这不是退步，是你已经走到了“知道该怎么改”的阶段。" },
+        { id: "mind_confused", label: "我还是常常不知道先改哪一步", feedback: "可以先只抓一个点，比如下午加餐或练后补给，不用全改。" }
+      ]
+    }
+  ],
+  changeWins: [
+    "今天抱娃时腰没那么容易酸",
+    "吃完饭后更踏实一点",
+    "一饿的时候没有立刻乱找零食",
+    "练完第二天恢复快一点",
+    "我更知道该往哪几个营养素上看"
+  ],
+  blockers: [
+    "我还是不知道加餐吃什么最省事",
+    "我知道原理，但现实里做不到",
+    "我经常空腹练",
+    "我总觉得自己吃了会胖",
+    "我不确定自己到底缺什么"
+  ],
+  lookupSymptoms: [
+    {
+      id: "tired",
+      label: "总是累",
+      leads: ["铁", "蛋白质"],
+      action: "先看铁和蛋白质够不够，再回头看总热量是不是一直偏低。"
+    },
+    {
+      id: "dizzy",
+      label: "容易头晕",
+      leads: ["碳水", "铁"],
+      action: "先排查是不是空腹太久，尤其是练前和上午、下午的加餐时间。"
+    },
+    {
+      id: "milk",
+      label: "奶量不稳",
+      leads: ["总热量", "水分"],
+      action: "先别急着归因，先看最近是不是吃少了、喝少了、练后又拖太久没补。"
+    },
+    {
+      id: "mood",
+      label: "情绪波动",
+      leads: ["DHA", "镁"],
+      action: "先从深海鱼、绿叶菜和稳定的进食节奏入手，不要先怪自己。"
+    },
+    {
+      id: "recovery",
+      label: "恢复慢",
+      leads: ["蛋白质", "总热量"],
+      action: "看练后是不是总没吃，或者一整天蛋白质都偏少。"
+    }
+  ],
+  lookupNutrients: [
+    {
+      id: "碘",
+      title: "碘",
+      why: "母乳是宝宝碘的主要来源，哺乳期尤其值得稳稳补上。",
+      foods: ["海带 / 紫菜", "海鱼虾贝", "加碘盐", "全脂牛奶"],
+      fallback: "如果日常很少吃海产，至少先确认家里用的是加碘盐。"
+    },
+    {
+      id: "DHA",
+      title: "DHA",
+      why: "更偏宝宝大脑和视网膜发育，也和你自己的情绪稳定感有关。",
+      foods: ["三文鱼", "沙丁鱼 / 鲭鱼", "核桃", "DHA 藻油"],
+      fallback: "如果做不到频繁吃鱼，DHA 藻油是非常现实的替代路径。"
+    },
+    {
+      id: "钙",
+      title: "钙",
+      why: "哺乳期更容易从身体储备里调出去，别等到明显不舒服才想起来。",
+      foods: ["全脂牛奶", "希腊酸奶", "北豆腐", "西兰花"],
+      fallback: "奶制品吃得少时，先把豆腐和酸奶补上。"
+    },
+    {
+      id: "铁",
+      title: "铁",
+      why: "产后失血和疲惫感，很多时候会和铁储备有关。",
+      foods: ["牛腱子肉", "猪肝", "菠菜", "红豆 / 黑豆"],
+      fallback: "不常吃红肉也没关系，但要记得给植物铁搭配维 C。"
+    },
+    {
+      id: "蛋白质",
+      title: "蛋白质",
+      why: "它既在帮你产奶，也在帮你练后恢复。",
+      foods: ["鸡蛋", "鸡胸 / 虾仁 / 鱼", "希腊酸奶", "豆腐 / 毛豆"],
+      fallback: "如果正餐经常顾不上，先保证早餐和练后补一点。"
+    },
+    {
+      id: "维D",
+      title: "维D",
+      why: "和钙吸收、恢复感都有关系，也常常是容易被忽略的一环。",
+      foods: ["三文鱼", "鸡蛋", "全脂牛奶", "香菇 / 木耳"],
+      fallback: "如果日照和鱼类都偏少，这一项后面很适合单独留意。"
+    },
+    {
+      id: "镁",
+      title: "镁",
+      why: "它经常不会被第一时间想到，但和情绪、肌肉状态都有关系。",
+      foods: ["菠菜", "豆腐 / 毛豆", "核桃", "燕麦"],
+      fallback: "绿叶菜 + 豆类的组合，通常比单独补更容易坚持。"
+    }
+  ],
   foodCategories: [
     { id: "all", label: "全部" },
     { id: "protein", label: "蛋白质类" },
@@ -236,6 +265,7 @@ window.APP_DATA = {
       portion: "100g 一掌",
       calories: 208,
       macros: { protein: 22, carbs: 0, fat: 13 },
+      note: "更偏 DHA、维 D 和恢复感。",
       tags: [
         { label: "DHA", type: "fatty" },
         { label: "维D", type: "vitamin" },
@@ -250,8 +280,9 @@ window.APP_DATA = {
       portion: "100g 一掌",
       calories: 170,
       macros: { protein: 26, carbs: 0, fat: 7 },
+      note: "更偏铁和恢复，尤其适合疲惫感明显时留意。",
       tags: [
-        { label: "血红素铁", type: "mineral" },
+        { label: "铁", type: "mineral" },
         { label: "锌", type: "mineral" },
         { label: "B12", type: "b-vitamin" }
       ]
@@ -263,8 +294,9 @@ window.APP_DATA = {
       portion: "120g 一掌",
       calories: 198,
       macros: { protein: 37, carbs: 0, fat: 4 },
+      note: "很稳的蛋白质来源，适合练后恢复。",
       tags: [
-        { label: "烟酸B3", type: "b-vitamin" },
+        { label: "蛋白质", type: "b-vitamin" },
         { label: "磷", type: "mineral" },
         { label: "硒", type: "mineral" }
       ]
@@ -276,6 +308,7 @@ window.APP_DATA = {
       portion: "100g 一抓",
       calories: 99,
       macros: { protein: 24, carbs: 0, fat: 1 },
+      note: "高蛋白又清爽，也能顺手补一点碘。",
       tags: [
         { label: "碘", type: "mineral" },
         { label: "锌", type: "mineral" },
@@ -289,6 +322,7 @@ window.APP_DATA = {
       portion: "150g",
       calories: 165,
       macros: { protein: 15, carbs: 9, fat: 8 },
+      note: "适合想吃得轻一点，但又不想把蛋白质放掉的时候。",
       tags: [
         { label: "钙", type: "mineral" },
         { label: "镁", type: "mineral" },
@@ -303,6 +337,7 @@ window.APP_DATA = {
       portion: "100g 大一捧",
       calories: 34,
       macros: { protein: 3, carbs: 7, fat: 0 },
+      note: "是很友好的基础绿叶菜，维 C 和钙都不错。",
       tags: [
         { label: "维C", type: "vitamin" },
         { label: "维K", type: "vitamin" },
@@ -317,6 +352,7 @@ window.APP_DATA = {
       portion: "100g 一捧",
       calories: 23,
       macros: { protein: 3, carbs: 4, fat: 0 },
+      note: "很适合放在“恢复慢或情绪不太稳”的时候一起留意。",
       tags: [
         { label: "铁", type: "mineral" },
         { label: "叶酸", type: "vitamin" },
@@ -331,6 +367,7 @@ window.APP_DATA = {
       portion: "100g 大一捧",
       calories: 31,
       macros: { protein: 4, carbs: 5, fat: 0 },
+      note: "轻盈但营养密度不错，适合没胃口的时候。",
       tags: [
         { label: "维C", type: "vitamin" },
         { label: "叶酸", type: "vitamin" },
@@ -344,6 +381,7 @@ window.APP_DATA = {
       portion: "100g 一根",
       calories: 41,
       macros: { protein: 1, carbs: 10, fat: 0 },
+      note: "很适合放在一顿饭里顺手补颜色。",
       tags: [
         { label: "β-胡萝卜素", type: "phyto" },
         { label: "维K", type: "vitamin" },
@@ -357,6 +395,7 @@ window.APP_DATA = {
       portion: "50g 干品泡发",
       calories: 60,
       macros: { protein: 3, carbs: 11, fat: 0 },
+      note: "适合做配菜加进去，轻松拉高营养密度。",
       tags: [
         { label: "维D", type: "vitamin" },
         { label: "铁", type: "mineral" },
@@ -370,6 +409,7 @@ window.APP_DATA = {
       portion: "150g 熟一拳",
       calories: 168,
       macros: { protein: 4, carbs: 35, fat: 1 },
+      note: "稳定碳水，比较适合不想一会儿就饿的时候。",
       tags: [
         { label: "B1", type: "b-vitamin" },
         { label: "镁", type: "mineral" },
@@ -384,6 +424,7 @@ window.APP_DATA = {
       portion: "40g 干约半碗",
       calories: 156,
       macros: { protein: 7, carbs: 26, fat: 3 },
+      note: "非常适合做加餐底座，稳定又省心。",
       tags: [
         { label: "β-葡聚糖", type: "phyto" },
         { label: "锰", type: "mineral" },
@@ -398,6 +439,7 @@ window.APP_DATA = {
       portion: "50g 干煮熟一碗",
       calories: 170,
       macros: { protein: 11, carbs: 30, fat: 1 },
+      note: "适合在主食里顺手增加一点铁和饱腹感。",
       tags: [
         { label: "铁", type: "mineral" },
         { label: "叶酸", type: "vitamin" },
@@ -412,6 +454,7 @@ window.APP_DATA = {
       portion: "150g 一拳",
       calories: 129,
       macros: { protein: 2, carbs: 30, fat: 0 },
+      note: "很适合做练前练后的低负担碳水。",
       tags: [
         { label: "钾", type: "mineral" },
         { label: "维C", type: "vitamin" },
@@ -426,6 +469,7 @@ window.APP_DATA = {
       portion: "1–2 个",
       calories: 78,
       macros: { protein: 6, carbs: 1, fat: 5 },
+      note: "极高性价比的蛋白质来源，也很适合练后小补。",
       tags: [
         { label: "维D", type: "vitamin" },
         { label: "胆碱", type: "b-vitamin" },
@@ -440,6 +484,7 @@ window.APP_DATA = {
       portion: "250ml 一杯",
       calories: 150,
       macros: { protein: 8, carbs: 12, fat: 8 },
+      note: "省事、稳、容易形成习惯，是很好的基础补给。",
       tags: [
         { label: "钙", type: "mineral" },
         { label: "维D", type: "vitamin" },
@@ -454,6 +499,7 @@ window.APP_DATA = {
       portion: "150g",
       calories: 135,
       macros: { protein: 15, carbs: 7, fat: 4 },
+      note: "加餐首选之一，补蛋白质也补钙。",
       tags: [
         { label: "钙", type: "mineral" },
         { label: "益生菌", type: "phyto" },
@@ -468,6 +514,7 @@ window.APP_DATA = {
       portion: "半个约 50g",
       calories: 80,
       macros: { protein: 1, carbs: 4, fat: 7 },
+      note: "适合给一顿饭增加一点温和脂肪和饱腹感。",
       tags: [
         { label: "维E", type: "vitamin" },
         { label: "钾", type: "mineral" },
@@ -482,6 +529,7 @@ window.APP_DATA = {
       portion: "3 颗约 25g",
       calories: 163,
       macros: { protein: 4, carbs: 3, fat: 16 },
+      note: "很适合做最低配加餐，但分量别不知不觉越吃越多。",
       tags: [
         { label: "Ω-3", type: "fatty" },
         { label: "维E", type: "vitamin" },
@@ -496,63 +544,12 @@ window.APP_DATA = {
       portion: "10ml 一拇指",
       calories: 90,
       macros: { protein: 0, carbs: 0, fat: 10 },
+      note: "不是主角，但能让一顿饭更完整、更有满足感。",
       tags: [
         { label: "维E", type: "vitamin" },
         { label: "维K", type: "vitamin" },
         { label: "多酚", type: "phyto" }
       ]
     }
-  ],
-  nutrientLookup: {
-    "碘": [
-      { food: "海带 / 紫菜", tip: "频率比一次吃很多更重要，每周安排 2–3 次就很好。" },
-      { food: "虾仁", tip: "做成快手菜最省心，也适合练后补一点蛋白质。" },
-      { food: "全脂牛奶", tip: "早餐固定一杯，很容易稳定把碘吃进去。" }
-    ],
-    "DHA": [
-      { food: "三文鱼", tip: "每周 2 次，比偶尔突击一次更有效。" },
-      { food: "沙丁鱼 / 鲭鱼", tip: "小型深海鱼汞更低，哺乳期更安心。" },
-      { food: "核桃", tip: "虽然不是直接 DHA，但作为日常补充依然有益。" }
-    ],
-    "钙": [
-      { food: "全脂牛奶", tip: "和早餐绑定最容易形成稳定摄入。" },
-      { food: "希腊酸奶", tip: "加餐时顺手吃，补钙也补蛋白质。" },
-      { food: "北豆腐", tip: "卤水点制的豆腐通常钙更高。" }
-    ],
-    "铁": [
-      { food: "牛腱子肉", tip: "血红素铁吸收率最好，是产后恢复的高性价比选择。" },
-      { food: "菠菜", tip: "配番茄、彩椒或柠檬汁，吸收会更好。" },
-      { food: "红豆 / 黑豆", tip: "植物铁需要一点维 C 帮忙，别单独吃完就算了。" }
-    ],
-    "蛋白质": [
-      { food: "鸡胸肉", tip: "每餐一掌，通常就离目标不远了。" },
-      { food: "鸡蛋", tip: "早餐或练后都很方便，补给门槛最低。" },
-      { food: "希腊酸奶", tip: "作为加餐比零食更稳，也更顶饿。" }
-    ],
-    "维D": [
-      { food: "三文鱼", tip: "维 D 和 DHA 一起补，效率很高。" },
-      { food: "鸡蛋", tip: "每天 1–2 个很容易长期坚持。" },
-      { food: "香菇 / 木耳", tip: "晒过的菌菇维 D 会更好一点。" }
-    ],
-    "叶酸": [
-      { food: "菠菜", tip: "快炒或焯水后凉拌，都比久煮更利于保留。" },
-      { food: "豌豆苗", tip: "口感轻，适合没胃口的时候加一份绿叶菜。" },
-      { food: "红豆 / 黑豆", tip: "做成杂粮饭或汤，接受度通常更高。" }
-    ],
-    "镁": [
-      { food: "菠菜", tip: "和蛋白质食物放在同一餐，整体恢复感会更好。" },
-      { food: "豆腐 / 毛豆", tip: "植物蛋白和镁一起到位，很适合晚餐。" },
-      { food: "核桃", tip: "控制在一小把，刚好补脂肪也不容易吃过量。" }
-    ],
-    "维C": [
-      { food: "西兰花", tip: "蒸或快炒比久煮留得更多。" },
-      { food: "豌豆苗", tip: "作为配菜加在午晚餐，很轻松就能提高一整餐质量。" },
-      { food: "紫薯 / 红薯", tip: "别把它只当主食，它也能顺便提供一点维 C。" }
-    ],
-    "锌": [
-      { food: "牛腱子肉", tip: "和铁一起补，适合恢复期优先安排。" },
-      { food: "虾仁", tip: "口味清爽，适合夏天和没胃口的时候。" },
-      { food: "红豆 / 黑豆", tip: "植物来源更适合做长期底盘补充。" }
-    ]
-  }
+  ]
 };

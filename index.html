@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#073118" />
     <meta
       name="description"
-      content="一张用两周就能学会、用完就不需要的哺乳期营养认知地图。"
+      content="给哺乳期新手妈妈的营养与身体恢复轻量陪伴工具。"
     />
     <link rel="manifest" href="./manifest.json" />
     <link rel="icon" href="./icon.svg" type="image/svg+xml" />
@@ -20,35 +20,41 @@
   <body>
     <div class="app-shell">
       <header class="hero">
-        <p class="hero-kicker">产后哺乳期 · 普拉提练习者</p>
+        <p class="hero-kicker">产后哺乳期 · 新手妈妈 · 身体恢复中</p>
         <h1>哺乳期营养地图</h1>
         <p class="hero-copy">
-          不用记卡路里，也不用天天打卡。你只需要知道，这个阶段该盯住什么、吃什么、身体在提醒你什么。
+          先帮你知道今天该怎么吃，再让你慢慢感觉到自己在一点点找回活力。
         </p>
       </header>
 
       <main id="app" class="app-main" aria-live="polite"></main>
 
       <nav class="tab-bar" aria-label="底部导航">
-        <button class="tab-button" data-tab="goals" type="button">
-          <span class="tab-label">我的目标</span>
+        <button class="tab-button" data-tab="current" type="button">
+          <span class="tab-label">我的现在</span>
           <span class="tab-dot" aria-hidden="true"></span>
         </button>
-        <button class="tab-button is-active" data-tab="map" type="button">
-          <span class="tab-label">营养地图</span>
+        <button class="tab-button is-active" data-tab="today" type="button">
+          <span class="tab-label">今天怎么吃</span>
+          <span class="tab-dot" aria-hidden="true"></span>
+        </button>
+        <button class="tab-button" data-tab="changes" type="button">
+          <span class="tab-label">最近变化</span>
+          <span class="tab-dot" aria-hidden="true"></span>
+        </button>
+        <button class="tab-button" data-tab="lookup" type="button">
+          <span class="tab-label">缺什么查什么</span>
           <span class="tab-dot" aria-hidden="true"></span>
         </button>
         <button class="tab-button" data-tab="foods" type="button">
-          <span class="tab-label">食物直觉</span>
-          <span class="tab-dot" aria-hidden="true"></span>
-        </button>
-        <button class="tab-button" data-tab="pilates" type="button">
-          <span class="tab-label">普拉提</span>
+          <span class="tab-label">食物选择</span>
           <span class="tab-dot" aria-hidden="true"></span>
         </button>
       </nav>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./config.js"></script>
     <script src="./data.js"></script>
     <script src="./app.js"></script>
   </body>
