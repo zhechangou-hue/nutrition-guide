@@ -21,6 +21,9 @@
 - `icon.svg`：应用图标
 - `supabase-schema.sql`：Supabase 数据表
 - `SUPABASE_SETUP.md`：后台接入说明
+- `CURRENT_TEST_SUCCESS_CRITERIA.md`：当前测试版成功标准
+- `RELEASE_CHECKLIST.md`：发布与测试检查清单
+- `TESTER_MANAGEMENT_TEMPLATE.csv`：测试者管理模板
 
 ## 本地预览
 
@@ -40,6 +43,9 @@
 - `README.md`
 - `SUPABASE_SETUP.md`
 - `supabase-schema.sql`
+- `CURRENT_TEST_SUCCESS_CRITERIA.md`
+- `RELEASE_CHECKLIST.md`
+- `TESTER_MANAGEMENT_TEMPLATE.csv`
 
 ## 开启轻后台
 
