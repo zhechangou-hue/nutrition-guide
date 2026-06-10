@@ -9,6 +9,7 @@
     workoutFuel,
     swapIdeas,
     focusPrompts,
+    routeStates,
     changeGroups,
     changeWins,
     blockers,
@@ -18,29 +19,27 @@
     foods
   } = window.APP_DATA;
 
-  const storageKey = "nutrition-map-state-v2";
+  const storageKey = "nutrition-map-state-v3";
   const params = new URLSearchParams(window.location.search);
   const clientId = params.get("client") || "";
 
   const state = {
-    activeTab: "today",
+    activeTab: "state",
     foodCategory: "all",
     selectedSymptom: lookupSymptoms[0].id,
     selectedNutrient: lookupNutrients[0].id,
     profile: loadProfile(),
-    changes: loadChanges()
+    changes: loadChanges(),
+    selectedRoute: loadSelectedRoute()
   };
 
-  const tracker = createTracker();
   const app = document.getElementById("app");
   const tabButtons = Array.from(document.querySelectorAll(".tab-button"));
+  const tracker = createTracker();
 
   tabButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      state.activeTab = button.dataset.tab;
-      syncTabs();
-      tracker.track("tab_open", { tab: state.activeTab });
-      render();
+      goToTab(button.dataset.tab);
     });
   });
 
@@ -49,7 +48,7 @@
   render();
 
   window.addEventListener("pagehide", () => {
-    tracker.track("session_end", { tab: state.activeTab });
+    tracker.track("session_end", { tab: state.activeTab, route: state.selectedRoute || null });
   });
 
   function loadProfile() {
@@ -87,6 +86,15 @@
     }
   }
 
+  function loadSelectedRoute() {
+    try {
+      const saved = JSON.parse(window.localStorage.getItem(storageKey + "-route") || "{}");
+      return routeStates.some((item) => item.id === saved.selectedRoute) ? saved.selectedRoute : routeStates[0].id;
+    } catch (error) {
+      return routeStates[0].id;
+    }
+  }
+
   function saveProfile() {
     window.localStorage.setItem(storageKey, JSON.stringify(state.profile));
   }
@@ -96,8 +104,19 @@
     tracker.track("state_checkin", state.changes);
   }
 
+  function saveSelectedRoute() {
+    window.localStorage.setItem(storageKey + "-route", JSON.stringify({ selectedRoute: state.selectedRoute }));
+  }
+
   function finiteOr(value, fallback) {
     return Number.isFinite(Number(value)) ? Number(value) : fallback;
+  }
+
+  function goToTab(tab) {
+    state.activeTab = tab;
+    syncTabs();
+    tracker.track("tab_open", { tab: state.activeTab, route: state.selectedRoute || null });
+    render();
   }
 
   function syncTabs() {
@@ -109,6 +128,11 @@
   function render() {
     if (state.activeTab === "current") {
       renderCurrentTab();
+      return;
+    }
+
+    if (state.activeTab === "state") {
+      renderStateTab();
       return;
     }
 
@@ -132,12 +156,17 @@
 
   function renderCurrentTab() {
     const totals = calculateTargets(state.profile);
+    const feedingPrompt = focusPrompts[state.profile.feeding] || focusPrompts.mixed;
 
     app.innerHTML = `
       <section class="section">
         <div class="section-header">
           <h2>我的现在</h2>
-          <p>这不是每天的任务清单，而是一个让你知道“自己大概需要到哪”的参考坐标。</p>
+          <p>先知道自己现在大概需要什么，不用算得很精，也能把底盘稳下来。</p>
+        </div>
+        <div class="focus-banner">
+          <strong>先把焦虑放轻一点</strong>
+          <p>${feedingPrompt}</p>
         </div>
         <div class="card">
           <div class="range-grid" id="range-grid"></div>
@@ -151,13 +180,13 @@
       <section class="section">
         <div class="section-header">
           <h3>今日参考范围</h3>
-          <p>数字只是帮助你建立底盘，不需要盯着每一克去完成。</p>
+          <p>这些数字只是参考坐标，不是让你每天去交作业。</p>
         </div>
         <div class="metric-grid">
           ${metricCard("热量", round(totals.calories), "kcal", "已经把哺乳额外需求算进去了")}
-          ${metricCard("蛋白质", round(totals.protein), "g", "每餐先看蛋白质，通常就不会太偏")}
-          ${metricCard("脂肪", round(totals.fat), "g", "别把脂肪想得太可怕，稳定感也需要它")}
-          ${metricCard("碳水", round(totals.carbs), "g", "普拉提和产奶都在用能量，别长期吃太少")}
+          ${metricCard("蛋白质", round(totals.protein), "g", "每餐先保住蛋白质，通常就不太会偏")}
+          ${metricCard("脂肪", round(totals.fat), "g", "脂肪不是敌人，稳定感和恢复也需要它")}
+          ${metricCard("碳水", round(totals.carbs), "g", "普拉提、产奶和恢复都在用能量，别长期吃太少")}
         </div>
         <div class="goal-highlight">
           <p>${buildSummary(totals)}</p>
@@ -179,122 +208,233 @@
           `).join("")}
         </div>
       </section>
+
+      <section class="section">
+        <div class="cta-bar">
+          <button class="action-button action-button--primary" type="button" data-nav="state">看看我现在更像哪种状态</button>
+          <button class="action-button action-button--ghost" type="button" data-nav="today">我想直接看今天怎么吃</button>
+        </div>
+      </section>
     `;
 
     mountProfileInputs();
+    mountNavButtons();
+  }
+
+  function renderStateTab() {
+    const selectedRoute = getSelectedRoute();
+
+    app.innerHTML = `
+      <section class="section">
+        <div class="section-header">
+          <h2>我现在更像哪种状态</h2>
+          <p>不用选得很准，只要选一个最像最近的你。这里不是问卷，是先帮你把范围缩小。</p>
+        </div>
+        <div class="route-grid">
+          ${routeStates.map((item) => `
+            <button class="route-card ${item.id === state.selectedRoute ? "is-selected" : ""}" type="button" data-route="${item.id}">
+              <span class="route-pill">${item.shortLabel}</span>
+              <strong>${item.title}</strong>
+              <p>${item.summary}</p>
+            </button>
+          `).join("")}
+        </div>
+      </section>
+
+      <section class="section">
+        <article class="route-detail">
+          <div class="route-detail__header">
+            <span class="route-pill route-pill--active">${selectedRoute.shortLabel}</span>
+            <h3>${selectedRoute.title}</h3>
+          </div>
+          <p class="route-lead">${selectedRoute.diagnosis}</p>
+          <div class="detail-grid">
+            <article class="detail-card detail-card--mint">
+              <strong>你先做的最小动作</strong>
+              <p>${selectedRoute.action}</p>
+            </article>
+            <article class="detail-card detail-card--warm">
+              <strong>如果做不到，先退一步</strong>
+              <p>${selectedRoute.fallback}</p>
+            </article>
+          </div>
+          <div class="mini-link-grid">
+            ${selectedRoute.quickLinks.map((item) => `<span class="mini-link">${item}</span>`).join("")}
+          </div>
+          <div class="cta-bar">
+            <button class="action-button action-button--primary" type="button" data-nav="today">看我今天先怎么吃</button>
+            <button class="action-button action-button--ghost" type="button" data-nav="lookup">我想先查查为什么会这样</button>
+          </div>
+        </article>
+      </section>
+    `;
+
+    app.querySelectorAll("[data-route]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.selectedRoute = button.dataset.route;
+        saveSelectedRoute();
+        tracker.track("route_select", { route: state.selectedRoute });
+        renderStateTab();
+      });
+    });
+
+    mountNavButtons();
   }
 
   function renderTodayTab() {
-    const feedingPrompt = focusPrompts[state.profile.feeding] || focusPrompts.mixed;
+    const route = getSelectedRoute();
+    const prompt = route.todayPlan.prompt;
+    const orderedSections = route.todayPlan.order.map((sectionId) => buildTodaySection(sectionId)).join("");
 
     app.innerHTML = `
       <section class="section">
         <div class="section-header">
           <h2>今天怎么吃</h2>
-          <p>先接住今天的真实生活，再把知识一点点变成你自己的身体直觉。</p>
+          <p>今天这一页会跟着你现在的状态走，不需要所有内容都一起看完。</p>
         </div>
         <div class="focus-banner">
-          <strong>今天先记住这件事</strong>
-          <p>${feedingPrompt}</p>
+          <strong>${route.todayPlan.emphasisTitle}</strong>
+          <p>${prompt}</p>
+        </div>
+        <div class="status-ribbon">
+          <span class="route-pill route-pill--active">${route.shortLabel}</span>
+          <p>${route.todayPlan.emphasisBody}</p>
         </div>
       </section>
 
-      <section class="section">
-        <div class="section-header">
-          <h3>三餐怎么搭更稳</h3>
-          <p>每一餐都不需要完美，但最好都能让你更稳一点。</p>
-        </div>
-        <div class="stack-grid">
-          ${mealGuides.map((meal) => `
-            <article class="recovery-card recovery-green">
-              <div class="mini-label">${meal.subtitle}</div>
-              <strong>${meal.title}</strong>
-              <p>${meal.summary}</p>
-              <ul class="recovery-list">
-                ${meal.examples.map((item) => `<li>${item}</li>`).join("")}
-              </ul>
-              <div class="tip-box">兜底选项：${meal.fallback}</div>
-            </article>
-          `).join("")}
-        </div>
-      </section>
+      ${orderedSections}
 
       <section class="section">
-        <div class="section-header">
-          <h3>加餐怎么选</h3>
-          <p>加餐不是吃多了，而是在这个阶段帮身体把能量接住。</p>
-        </div>
-        <div class="stack-grid">
-          ${snackWindows.map((snack) => `
-            <article class="recovery-card recovery-peach">
-              <strong>${snack.title}</strong>
-              <p>${snack.summary}</p>
-              <ul class="recovery-list">
-                ${snack.combos.map((item) => `<li>${item}</li>`).join("")}
-              </ul>
-              <div class="tip-box">${snack.note}</div>
-            </article>
-          `).join("")}
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-header">
-          <h3>普拉提前后怎么吃</h3>
-          <p>${workoutFuel.intro}</p>
-        </div>
-        <div class="stack-grid">
-          <article class="recovery-card recovery-blue">
-            <strong>${workoutFuel.before.title}</strong>
-            <p>${workoutFuel.before.summary}</p>
-            <ul class="recovery-list">
-              ${workoutFuel.before.ideas.map((item) => `<li>${item}</li>`).join("")}
-            </ul>
-          </article>
-          <article class="recovery-card recovery-green">
-            <strong>${workoutFuel.after.title}</strong>
-            <p>${workoutFuel.after.summary}</p>
-            <ul class="recovery-list">
-              ${workoutFuel.after.ideas.map((item) => `<li>${item}</li>`).join("")}
-            </ul>
-          </article>
-        </div>
-        <div class="principles-list">
-          ${workoutFuel.dayAdjustments.map((item, index) => `
-            <article class="principle-item">
-              <div class="principle-number">${index + 1}</div>
-              <p>${item}</p>
-            </article>
-          `).join("")}
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-header">
-          <h3>做不到时怎么替代</h3>
-          <p>你的目标不是照本宣科，而是在真实生活里找到能做下去的版本。</p>
-        </div>
-        <div class="lookup-panel">
-          ${swapIdeas.map((item) => `
-            <article class="lookup-item">
-              <strong>${item.problem}</strong>
-              <p>${item.answer}</p>
-            </article>
-          `).join("")}
+        <div class="cta-bar">
+          <button class="action-button action-button--primary" type="button" data-nav="changes">${route.todayPlan.primaryCta}</button>
+          <button class="action-button action-button--ghost" type="button" data-nav="lookup">我还是想查查缺什么</button>
         </div>
       </section>
     `;
+
+    mountNavButtons();
+  }
+
+  function buildTodaySection(sectionId) {
+    if (sectionId === "swap") {
+      return `
+        <section class="section">
+          <div class="section-header">
+            <h3>做不到时怎么替代</h3>
+            <p>你的目标不是照本宣科，而是在真实生活里找到能做下去的版本。</p>
+          </div>
+          <div class="lookup-panel">
+            ${swapIdeas.map((item) => `
+              <article class="lookup-item">
+                <strong>${item.problem}</strong>
+                <p>${item.answer}</p>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      `;
+    }
+
+    if (sectionId === "meals") {
+      return `
+        <section class="section">
+          <div class="section-header">
+            <h3>三餐怎么搭更稳</h3>
+            <p>不是吃得完美，而是让每一餐都更容易接住你。</p>
+          </div>
+          <div class="stack-grid">
+            ${mealGuides.map((meal) => `
+              <article class="recovery-card recovery-green">
+                <div class="mini-label">${meal.subtitle}</div>
+                <strong>${meal.title}</strong>
+                <p>${meal.summary}</p>
+                <ul class="recovery-list">
+                  ${meal.examples.map((item) => `<li>${item}</li>`).join("")}
+                </ul>
+                <div class="tip-box">兜底选项：${meal.fallback}</div>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      `;
+    }
+
+    if (sectionId === "snacks") {
+      return `
+        <section class="section">
+          <div class="section-header">
+            <h3>加餐怎么选</h3>
+            <p>加餐不是吃多了，而是在这个阶段帮身体把能量接住。</p>
+          </div>
+          <div class="stack-grid">
+            ${snackWindows.map((snack) => `
+              <article class="recovery-card recovery-peach">
+                <strong>${snack.title}</strong>
+                <p>${snack.summary}</p>
+                <ul class="recovery-list">
+                  ${snack.combos.map((item) => `<li>${item}</li>`).join("")}
+                </ul>
+                <div class="tip-box">${snack.note}</div>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      `;
+    }
+
+    if (sectionId === "workout") {
+      return `
+        <section class="section">
+          <div class="section-header">
+            <h3>普拉提前后怎么吃</h3>
+            <p>${workoutFuel.intro}</p>
+          </div>
+          <div class="stack-grid">
+            <article class="recovery-card recovery-blue">
+              <strong>${workoutFuel.before.title}</strong>
+              <p>${workoutFuel.before.summary}</p>
+              <ul class="recovery-list">
+                ${workoutFuel.before.ideas.map((item) => `<li>${item}</li>`).join("")}
+              </ul>
+            </article>
+            <article class="recovery-card recovery-green">
+              <strong>${workoutFuel.after.title}</strong>
+              <p>${workoutFuel.after.summary}</p>
+              <ul class="recovery-list">
+                ${workoutFuel.after.ideas.map((item) => `<li>${item}</li>`).join("")}
+              </ul>
+            </article>
+          </div>
+          <div class="principles-list">
+            ${workoutFuel.dayAdjustments.map((item, index) => `
+              <article class="principle-item">
+                <div class="principle-number">${index + 1}</div>
+                <p>${item}</p>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      `;
+    }
+
+    return "";
   }
 
   function renderChangesTab() {
+    const route = getSelectedRoute();
+
     app.innerHTML = `
       <section class="section">
         <div class="section-header">
           <h2>我最近的变化</h2>
-          <p>不是打卡，也不是评分，只是帮你看见：你正在慢慢找回一点点稳和活力。</p>
+          <p>不是打卡，也不是评分，只是帮你看见：你有没有开始从现在的状态里慢慢往前走。</p>
         </div>
         <div class="goal-highlight">
           <p>${buildChangesSummary()}</p>
+        </div>
+        <div class="status-ribbon">
+          <span class="route-pill route-pill--active">${route.shortLabel}</span>
+          <p>你现在主要在看的是「${route.title}」这条线，所以这里更值得留意身体有没有开始稳下来。</p>
         </div>
       </section>
 
@@ -346,6 +486,10 @@
             </button>
           `).join("")}
         </div>
+        <div class="cta-bar">
+          <button class="action-button action-button--primary" type="button" data-nav="today">继续看我今天怎么吃</button>
+          <button class="action-button action-button--ghost" type="button" data-nav="state">我想重新判断一下状态</button>
+        </div>
       </section>
     `;
 
@@ -372,6 +516,8 @@
         renderChangesTab();
       });
     });
+
+    mountNavButtons();
   }
 
   function renderLookupTab() {
@@ -382,7 +528,7 @@
       <section class="section">
         <div class="section-header">
           <h2>缺什么查什么</h2>
-          <p>先接住你现在的感觉，再给你一个简单的方向，不用自己在脑子里拼图。</p>
+          <p>先接住你现在的感觉，再给你一个简单方向，不用自己在脑子里拼图。</p>
         </div>
       </section>
 
@@ -425,6 +571,10 @@
           </ul>
           <div class="tip-box">做不到时怎么办：${nutrient.fallback}</div>
         </article>
+        <div class="cta-bar">
+          <button class="action-button action-button--primary" type="button" data-nav="today">回到今天怎么吃</button>
+          <button class="action-button action-button--ghost" type="button" data-nav="foods">看看哪些食物最适合我</button>
+        </div>
       </section>
     `;
 
@@ -443,6 +593,8 @@
         renderLookupTab();
       });
     });
+
+    mountNavButtons();
   }
 
   function renderFoodsTab() {
@@ -486,6 +638,10 @@
             </article>
           `).join("")}
         </div>
+        <div class="cta-bar">
+          <button class="action-button action-button--primary" type="button" data-nav="lookup">我想看这个补什么</button>
+          <button class="action-button action-button--ghost" type="button" data-nav="today">回到今天怎么吃</button>
+        </div>
       </section>
     `;
 
@@ -496,6 +652,8 @@
         renderFoodsTab();
       });
     });
+
+    mountNavButtons();
   }
 
   function mountProfileInputs() {
@@ -544,6 +702,18 @@
         renderCurrentTab();
       });
     });
+  }
+
+  function mountNavButtons() {
+    app.querySelectorAll("[data-nav]").forEach((button) => {
+      button.addEventListener("click", () => {
+        goToTab(button.dataset.nav);
+      });
+    });
+  }
+
+  function getSelectedRoute() {
+    return routeStates.find((item) => item.id === state.selectedRoute) || routeStates[0];
   }
 
   function buildChangesSummary() {
@@ -700,6 +870,7 @@
       walnut: `<svg viewBox="0 0 64 64" class="food-svg" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="52" height="52" rx="18" fill="#FBF2EA"/><path d="M32 20c8 0 14 6 14 14s-6 14-14 14-14-6-14-14 6-14 14-14z" fill="#B07D56"/><path d="M32 22v24M26 27c3 2 4 5 4 7s-1 5-4 7M38 27c-3 2-4 5-4 7s1 5 4 7" stroke="#E6C7A8" stroke-width="2" stroke-linecap="round"/></svg>`,
       "olive-oil": `<svg viewBox="0 0 64 64" class="food-svg" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="52" height="52" rx="18" fill="#FFF8E3"/><path d="M29 18h6v6h4v7c0 2-1 4-2 6l-2 9c-1 4-5 6-8 6s-7-2-8-6l2-9c1-2 2-4 2-6v-7h4v-6z" fill="#C6B249"/><path d="M25 31c2 1 6 1 10 0" stroke="#F8F0A6" stroke-width="2" stroke-linecap="round"/></svg>`
     };
+
     return illustrations[type] || "";
   }
 })();
